@@ -37,7 +37,10 @@ class ProjectController extends Controller
     {
         $this->ensureOwnership($request, $project);
 
-        return view('projects.show', ['project' => $project]);
+        return view('projects.show', [
+            'project' => $project,
+            'tasks' => $project->tasks()->latest()->get(),
+        ]);
     }
 
     /**
@@ -72,13 +75,5 @@ class ProjectController extends Controller
         $project->delete();
 
         return redirect()->route('projects.index')->with('success', 'Projet supprimé.');
-    }
-
-    /**
-     * Abort with a 403 when the project does not belong to the authenticated user.
-     */
-    private function ensureOwnership(Request $request, Project $project): void
-    {
-        abort_unless($project->user()->is($request->user()), 403);
     }
 }
