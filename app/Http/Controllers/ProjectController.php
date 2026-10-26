@@ -33,10 +33,8 @@ class ProjectController extends Controller
     /**
      * Display the specified project.
      */
-    public function show(Request $request, Project $project): View
+    public function show(Project $project): View
     {
-        $this->ensureOwnership($request, $project);
-
         return view('projects.show', [
             'project' => $project,
             'tasks' => $project->tasks()->latest()->get(),
@@ -46,10 +44,8 @@ class ProjectController extends Controller
     /**
      * Show the form for editing the specified project.
      */
-    public function edit(Request $request, Project $project): View
+    public function edit(Project $project): View
     {
-        $this->ensureOwnership($request, $project);
-
         return view('projects.edit', ['project' => $project]);
     }
 
@@ -58,8 +54,6 @@ class ProjectController extends Controller
      */
     public function update(ProjectRequest $request, Project $project): RedirectResponse
     {
-        $this->ensureOwnership($request, $project);
-
         $project->update($request->validated());
 
         return redirect()->route('projects.show', $project)->with('success', 'Projet mis à jour.');
@@ -68,10 +62,8 @@ class ProjectController extends Controller
     /**
      * Delete the specified project.
      */
-    public function destroy(Request $request, Project $project): RedirectResponse
+    public function destroy(Project $project): RedirectResponse
     {
-        $this->ensureOwnership($request, $project);
-
         $project->delete();
 
         return redirect()->route('projects.index')->with('success', 'Projet supprimé.');
