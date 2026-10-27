@@ -30,6 +30,12 @@
             <a href="{{ route('projects.show', $project) }}" class="block py-3 border-b last:border-0 hover:bg-gray-50">
                 <span class="font-medium text-gray-900">{{ $project->name }}</span>
                 <span class="block text-sm text-gray-500">{{ $project->description }}</span>
+                <span class="block mt-1 text-sm text-gray-600">
+                    {{ $project->tasks->count() }} tâche(s)
+                    @foreach ($project->tasks->take(3) as $task)
+                        · {{ $task->title }} ({{ $task->status_label }})
+                    @endforeach
+                </span>
             </a>
         @empty
             <p class="text-gray-500">Aucun projet pour le moment.</p>

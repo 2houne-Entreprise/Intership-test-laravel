@@ -5,6 +5,7 @@ namespace App\Models;
 use App\TaskStatus;
 use Database\Factories\TaskFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -34,5 +35,22 @@ class Task extends Model
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
+    }
+
+    /**
+     * Scope a query to tasks whose deadline has passed and that are not done.
+     */
+    public function scopeOverdue(Builder $query): void
+    {
+        $query->whereDate('deadline', '<', today())
+            ->where('status', '!=', TaskStatus::Done);
+    }
+
+    /**
+     * Get the status label in French (e.g. "En attente").
+     */
+    public function getStatusLabelAttribute(): string
+    {
+        return $this->status->label();
     }
 }

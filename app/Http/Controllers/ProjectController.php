@@ -15,7 +15,7 @@ class ProjectController extends Controller
      */
     public function index(Request $request): View
     {
-        $projects = $request->user()->projects()->latest()->get();
+        $projects = $request->user()->projects()->with('tasks')->latest()->get();
 
         return view('projects.index', ['projects' => $projects]);
     }
@@ -33,11 +33,20 @@ class ProjectController extends Controller
     /**
      * Display the specified project.
      */
-    public function show(Project $project): View
+    public function show(Request $request, Project $project): View
     {
+        $showOverdueOnly = $request->boolean('overdue');
+
+        $tasks = $project->tasks()
+            ->when($showOverdueOnly, fn ($query) => $query->overdue())
+            ->orderByRaw('deadline is null')
+            ->orderBy('deadline')
+            ->get();
+
         return view('projects.show', [
             'project' => $project,
-            'tasks' => $project->tasks()->latest()->get(),
+            'tasks' => $tasks,
+            'showOverdueOnly' => $showOverdueOnly,
         ]);
     }
 

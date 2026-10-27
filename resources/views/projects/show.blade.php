@@ -33,10 +33,20 @@
     </div>
 
     <div class="p-6 bg-white shadow-sm sm:rounded-lg">
-        <h3 class="text-lg font-medium text-gray-900">Tâches</h3>
+        <div class="flex items-center justify-between">
+            <h3 class="text-lg font-medium text-gray-900">Tâches</h3>
+
+            @if ($showOverdueOnly)
+                <a href="{{ route('projects.show', $project) }}" class="text-sm text-indigo-600 hover:underline">Toutes les tâches</a>
+            @else
+                <a href="{{ route('projects.show', [$project, 'overdue' => 1]) }}" class="text-sm text-red-600 hover:underline">En retard uniquement</a>
+            @endif
+        </div>
 
         @if ($tasks->isEmpty())
-            <p class="mt-4 text-gray-500">Aucune tâche pour le moment.</p>
+            <p class="mt-4 text-gray-500">
+                {{ $showOverdueOnly ? 'Aucune tâche en retard.' : 'Aucune tâche pour le moment.' }}
+            </p>
         @else
             <div class="mt-4 overflow-x-auto">
                 <table class="min-w-full text-sm text-left">
