@@ -23,3 +23,15 @@
     <x-text-input id="deadline" name="deadline" type="date" class="mt-1 block w-full" :value="old('deadline', $task?->deadline?->format('Y-m-d'))" />
     <x-input-error :messages="$errors->get('deadline')" class="mt-2" />
 </div>
+
+<div>
+    <x-input-label for="attachment" value="Pièce jointe (optionnelle, 5 Mo max)" />
+    <input id="attachment" name="attachment" type="file" class="mt-1 block w-full text-sm text-gray-700" />
+    @if ($task?->attachment_url)
+        <p class="mt-1 text-sm text-gray-600">
+            Fichier actuel : <a href="{{ $task->attachment_url }}" class="text-indigo-600 hover:underline" download>télécharger</a>
+            (envoyer un nouveau fichier le remplace)
+        </p>
+    @endif
+    <x-input-error :messages="$errors->get('attachment')" class="mt-2" />
+</div>

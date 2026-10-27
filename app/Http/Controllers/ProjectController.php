@@ -6,6 +6,7 @@ use App\Http\Requests\ProjectRequest;
 use App\Models\Project;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class ProjectController extends Controller
@@ -73,6 +74,10 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project): RedirectResponse
     {
+        Storage::disk('public')->delete(
+            $project->tasks()->whereNotNull('attachment_path')->pluck('attachment_path')->all()
+        );
+
         $project->delete();
 
         return redirect()->route('projects.index')->with('success', 'Projet supprimé.');

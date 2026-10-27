@@ -23,7 +23,7 @@
     <div class="p-6 bg-white shadow-sm sm:rounded-lg">
         <h3 class="text-lg font-medium text-gray-900">Nouvelle tâche</h3>
 
-        <form method="POST" action="{{ route('projects.tasks.store', $project) }}" class="mt-4 space-y-4">
+        <form method="POST" action="{{ route('projects.tasks.store', $project) }}" enctype="multipart/form-data" class="mt-4 space-y-4">
             @csrf
 
             @include('tasks.form-fields', ['task' => null])
@@ -61,7 +61,12 @@
                     <tbody>
                         @foreach ($tasks as $task)
                             <tr class="border-b last:border-0">
-                                <td class="py-3 pr-4 font-medium text-gray-900">{{ $task->title }}</td>
+                                <td class="py-3 pr-4">
+                                    <span class="font-medium text-gray-900">{{ $task->title }}</span>
+                                    @if ($task->attachment_url)
+                                        <a href="{{ $task->attachment_url }}" class="block text-xs text-indigo-600 hover:underline" download>Télécharger la pièce jointe</a>
+                                    @endif
+                                </td>
                                 <td class="py-3 pr-4">
                                     <form method="POST" action="{{ route('projects.tasks.update', [$project, $task]) }}">
                                         @csrf

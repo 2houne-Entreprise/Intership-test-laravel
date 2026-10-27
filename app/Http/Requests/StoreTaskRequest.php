@@ -20,6 +20,7 @@ class StoreTaskRequest extends FormRequest
             'title' => ['required', 'string', 'max:255'],
             'status' => ['required', Rule::enum(TaskStatus::class)],
             'deadline' => ['nullable', 'date'],
+            'attachment' => ['nullable', 'file', 'mimes:pdf,jpg,jpeg,png,txt,doc,docx,xls,xlsx,zip', 'max:5120'],
         ];
     }
 
@@ -36,6 +37,10 @@ class StoreTaskRequest extends FormRequest
             'status.required' => 'Le statut est obligatoire.',
             'status.enum' => 'Le statut sélectionné est invalide.',
             'deadline.date' => "L'échéance doit être une date valide.",
+            'attachment.file' => 'La pièce jointe doit être un fichier.',
+            'attachment.mimes' => 'Formats acceptés : pdf, jpg, png, txt, doc, docx, xls, xlsx, zip.',
+            'attachment.max' => 'La pièce jointe ne doit pas dépasser 5 Mo.',
+            'attachment.uploaded' => "L'envoi de la pièce jointe a échoué.",
         ];
     }
 }

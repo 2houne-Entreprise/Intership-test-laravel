@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="p-6 bg-white shadow-sm sm:rounded-lg">
-        <form method="POST" action="{{ route('projects.tasks.update', [$project, $task]) }}" class="space-y-4">
+        <form method="POST" action="{{ route('projects.tasks.update', [$project, $task]) }}" enctype="multipart/form-data" class="space-y-4">
             @csrf
             @method('PUT')
 

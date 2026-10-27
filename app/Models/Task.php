@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable(['title', 'status', 'deadline'])]
+#[Fillable(['title', 'status', 'deadline', 'attachment_path'])]
 class Task extends Model
 {
     /** @use HasFactory<TaskFactory> */
@@ -52,5 +52,13 @@ class Task extends Model
     public function getStatusLabelAttribute(): string
     {
         return $this->status->label();
+    }
+
+    /**
+     * Get the public URL of the attachment (served through the storage:link symlink).
+     */
+    public function getAttachmentUrlAttribute(): ?string
+    {
+        return $this->attachment_path ? asset('storage/'.$this->attachment_path) : null;
     }
 }
