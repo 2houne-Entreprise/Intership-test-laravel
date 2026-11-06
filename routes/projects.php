@@ -9,3 +9,6 @@ Route::resource('projects', ProjectController::class)
 
 Route::resource('projects.tasks', TaskController::class)
     ->only(['store', 'edit', 'update']);
+
+Route::patch('projects/{project}/tasks/{task}/status', [TaskController::class, 'status'])
+    ->name('projects.tasks.status');
