@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TaskStatus;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -9,9 +10,11 @@ class ProjectController extends Controller
     public function index(Request $request)
     {
         $projects = $request->user()->projects()
+            ->when($request->query('q'), fn ($query, $search) => $query->where('name', 'like', "%{$search}%"))
             ->withCount(['tasks', 'tasks as overdue_count' => fn ($query) => $query->overdue()])
             ->latest()
-            ->get();
+            ->paginate(10)
+            ->withQueryString();
 
         return view('projects.index', compact('projects'));
     }
@@ -25,9 +28,18 @@ class ProjectController extends Controller
 
     public function show(Request $request, string $id)
     {
-        $project = $request->user()->projects()->with('tasks')->findOrFail($id);
+        $project = $request->user()->projects()->findOrFail($id);
 
-        return view('projects.show', compact('project'));
+        $tasks = $project->tasks()
+            ->when($request->query('q'), fn ($query, $search) => $query->where('title', 'like', "%{$search}%"))
+            ->when(TaskStatus::tryFrom((string) $request->query('status')), fn ($query, $status) => $query->where('status', $status))
+            ->orderByRaw("status = 'done'")
+            ->orderByRaw('deadline is null')
+            ->orderBy('deadline')
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('projects.show', compact('project', 'tasks'));
     }
 
     public function edit(Request $request, string $id)

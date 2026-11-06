@@ -24,6 +24,17 @@
         <x-primary-button>Ajouter la tâche</x-primary-button>
     </form>
 
+    <form method="GET" class="flex flex-wrap gap-2">
+        <x-text-input name="q" :value="request('q')" placeholder="Rechercher une tâche" class="flex-1 min-w-0 text-sm" />
+        <select name="status" aria-label="Filtrer par statut" class="border-gray-300 rounded-md shadow-sm text-sm">
+            <option value="">Tous les statuts</option>
+            @foreach (App\Enums\TaskStatus::cases() as $status)
+                <option value="{{ $status->value }}" @selected(request('status') === $status->value)>{{ $status->label() }}</option>
+            @endforeach
+        </select>
+        <x-secondary-button type="submit">Filtrer</x-secondary-button>
+    </form>
+
     <div class="bg-white rounded shadow-sm overflow-x-auto">
         <table class="w-full text-sm">
             <thead class="bg-gray-50 text-left text-gray-600">
@@ -36,7 +47,7 @@
                 </tr>
             </thead>
             <tbody class="divide-y">
-                @forelse ($project->tasks as $task)
+                @forelse ($tasks as $task)
                     <tr>
                         <td class="p-3">
                             <p class="font-medium">{{ $task->title }}</p>
@@ -83,10 +94,14 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" class="p-4 text-gray-500">Aucune tâche.</td>
+                        <td colspan="5" class="p-4 text-gray-500">
+                            {{ request()->hasAny(['q', 'status']) ? 'Aucune tâche ne correspond à la recherche.' : 'Aucune tâche.' }}
+                        </td>
                     </tr>
                 @endforelse
             </tbody>
         </table>
     </div>
+
+    {{ $tasks->links() }}
 @endsection

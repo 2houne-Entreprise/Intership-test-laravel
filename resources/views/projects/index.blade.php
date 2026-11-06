@@ -11,6 +11,11 @@
         <x-primary-button>Créer</x-primary-button>
     </form>
 
+    <form method="GET" class="flex gap-2">
+        <x-text-input name="q" :value="request('q')" placeholder="Rechercher un projet" class="flex-1 min-w-0 text-sm" />
+        <x-secondary-button type="submit">Rechercher</x-secondary-button>
+    </form>
+
     <div class="bg-white rounded shadow-sm divide-y">
         @forelse ($projects as $project)
             <div class="p-4 flex justify-between gap-4">
@@ -34,7 +39,9 @@
                 </div>
             </div>
         @empty
-            <p class="p-4 text-gray-500">Aucun projet.</p>
+            <p class="p-4 text-gray-500">{{ request('q') ? 'Aucun projet ne correspond à la recherche.' : 'Aucun projet.' }}</p>
         @endforelse
     </div>
+
+    {{ $projects->links() }}
 @endsection
