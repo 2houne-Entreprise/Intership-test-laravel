@@ -18,7 +18,7 @@
             @forelse ($projects as $project)
                 <div class="p-4 flex justify-between gap-4">
                     <div>
-                        <p class="font-semibold">{{ $project->name }}</p>
+                        <a href="{{ route('projects.show', $project) }}" class="font-semibold hover:text-indigo-600">{{ $project->name }}</a>
                         <p class="text-sm text-gray-600">{{ $project->description }}</p>
                     </div>
                     <div class="flex gap-3 text-sm">

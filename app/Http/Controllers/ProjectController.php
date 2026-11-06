@@ -20,6 +20,13 @@ class ProjectController extends Controller
         return back()->with('success', 'Projet créé.');
     }
 
+    public function show(Request $request, string $id)
+    {
+        $project = $request->user()->projects()->findOrFail($id);
+
+        return view('projects.show', compact('project'));
+    }
+
     public function edit(Request $request, string $id)
     {
         $project = $request->user()->projects()->findOrFail($id);
