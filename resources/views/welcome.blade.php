@@ -13,34 +13,47 @@
     </head>
     <body class="font-sans antialiased bg-gray-100 text-gray-900">
         <div class="min-h-screen flex flex-col">
-            <header class="max-w-5xl w-full mx-auto px-6 py-6 flex items-center justify-between">
-                <a href="/" class="flex items-center gap-2">
-                    <x-application-logo class="h-8 w-8 text-indigo-600" />
-                    <span class="font-semibold text-lg">TaskFlow</span>
-                </a>
+            @include('layouts.site-header')
 
-                <nav class="flex items-center gap-4 text-sm">
-                    @auth
-                        <a href="{{ route('projects.index') }}" class="font-medium text-indigo-600">Mes projets</a>
-                    @else
-                        <a href="{{ route('login') }}" class="text-gray-600 hover:text-gray-900">Connexion</a>
-                        <a href="{{ route('register') }}" class="px-4 py-2 rounded-md bg-indigo-600 text-white hover:bg-indigo-700">Créer un compte</a>
-                    @endauth
-                </nav>
-            </header>
+            <main class="flex-1">
+                <div class="max-w-5xl mx-auto px-6 pt-8 pb-16 grid lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h1 class="text-4xl sm:text-5xl font-semibold tracking-tight leading-tight">
+                            Organisez vos projets, suivez vos tâches.
+                        </h1>
+                        <p class="mt-5 text-lg text-gray-600 max-w-md">
+                            Créez des projets, ajoutez des tâches avec une échéance et un statut, et voyez tout de suite ce qui est en retard.
+                        </p>
 
-            <main class="flex-1 flex items-center">
-                <div class="max-w-5xl w-full mx-auto px-6 py-16">
-                    <h1 class="text-4xl sm:text-5xl font-semibold tracking-tight max-w-2xl">
-                        Organisez vos projets, suivez vos tâches.
-                    </h1>
-                    <p class="mt-4 text-lg text-gray-600 max-w-xl">
-                        Créez des projets, ajoutez des tâches avec une échéance et un statut, et voyez tout de suite ce qui est en retard.
-                    </p>
-                    <div class="mt-8">
-                        <a href="{{ auth()->check() ? route('projects.index') : route('register') }}" class="inline-block px-6 py-3 rounded-md bg-indigo-600 text-white font-medium hover:bg-indigo-700">
-                            Commencer
-                        </a>
+                        <div class="mt-8 flex flex-wrap gap-3">
+                            @auth
+                                <a href="{{ route('dashboard') }}" class="px-5 py-3 rounded-md bg-indigo-600 text-white font-medium hover:bg-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">Ouvrir mon tableau de bord</a>
+                            @else
+                                <a href="{{ route('register') }}" class="px-5 py-3 rounded-md bg-indigo-600 text-white font-medium hover:bg-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">Créer un compte</a>
+                                <a href="{{ route('login') }}" class="px-5 py-3 rounded-md bg-white border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">Se connecter</a>
+                            @endauth
+                        </div>
+
+                        @guest
+                            <p class="mt-5 text-sm text-gray-500">
+                                Compte de démo : <span class="font-medium text-gray-700">demo@taskflow.test</span>, mot de passe <span class="font-medium text-gray-700">password</span>
+                            </p>
+                        @endguest
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-lg ring-1 ring-gray-200 p-8">
+                        <p class="text-gray-600">
+                            Conçu et développé par <span class="font-semibold text-gray-900">Amar</span>
+                            pour le test technique <span class="font-semibold text-indigo-600">2Houne</span>.
+                        </p>
+                        <ul class="mt-6 grid grid-cols-2 gap-3">
+                            @foreach (['laravel' => 'Laravel 13', 'php' => 'PHP 8.4', 'sqlite' => 'SQLite', 'blade' => 'Blade'] as $icon => $name)
+                                <li class="flex items-center gap-3 p-3 rounded-lg border border-gray-200">
+                                    <img src="/icons/{{ $icon }}.svg" alt="" class="h-6 w-6">
+                                    <span class="font-medium text-gray-800">{{ $name }}</span>
+                                </li>
+                            @endforeach
+                        </ul>
                     </div>
                 </div>
             </main>
