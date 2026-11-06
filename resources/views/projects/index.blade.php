@@ -17,6 +17,12 @@
                 <div>
                     <a href="{{ route('projects.show', $project) }}" class="font-semibold hover:text-indigo-600">{{ $project->name }}</a>
                     <p class="text-sm text-gray-600">{{ $project->description }}</p>
+                    <p class="mt-1 text-xs text-gray-500">
+                        {{ $project->tasks_count }} {{ $project->tasks_count > 1 ? 'tâches' : 'tâche' }}
+                        @if ($project->overdue_count)
+                            · <span class="text-red-600">{{ $project->overdue_count }} en retard</span>
+                        @endif
+                    </p>
                 </div>
                 <div class="flex gap-3 text-sm">
                     <a href="{{ route('projects.edit', $project) }}" class="text-indigo-600">Modifier</a>

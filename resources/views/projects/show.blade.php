@@ -25,6 +25,7 @@
                     <th class="p-3">Titre</th>
                     <th class="p-3">Statut</th>
                     <th class="p-3">Échéance</th>
+                    <th class="p-3">Changer</th>
                     <th class="p-3"></th>
                 </tr>
             </thead>
@@ -32,6 +33,20 @@
                 @forelse ($project->tasks as $task)
                     <tr>
                         <td class="p-3 font-medium">{{ $task->title }}</td>
+                        <td class="p-3">
+                            <span @class([
+                                'px-2 py-0.5 rounded-full text-xs whitespace-nowrap',
+                                'bg-gray-100 text-gray-700' => $task->status === App\Enums\TaskStatus::Pending,
+                                'bg-amber-100 text-amber-800' => $task->status === App\Enums\TaskStatus::InProgress,
+                                'bg-green-100 text-green-800' => $task->status === App\Enums\TaskStatus::Done,
+                            ])>{{ $task->status_label }}</span>
+                        </td>
+                        <td class="p-3 whitespace-nowrap">
+                            {{ $task->deadline?->format('d/m/Y') ?? '—' }}
+                            @if ($task->isOverdue())
+                                <span class="ms-1 px-2 py-0.5 rounded-full text-xs bg-red-100 text-red-700">En retard</span>
+                            @endif
+                        </td>
                         <td class="p-3">
                             <form method="POST" action="{{ route('projects.tasks.status', [$project, $task]) }}" class="flex gap-2">
                                 @csrf
@@ -44,7 +59,6 @@
                                 <button class="text-indigo-600">OK</button>
                             </form>
                         </td>
-                        <td class="p-3">{{ $task->deadline?->format('d/m/Y') ?? '—' }}</td>
                         <td class="p-3">
                             <div class="flex justify-end gap-3">
                                 <a href="{{ route('projects.tasks.edit', [$project, $task]) }}" class="text-indigo-600">Modifier</a>
@@ -58,7 +72,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4" class="p-4 text-gray-500">Aucune tâche.</td>
+                        <td colspan="5" class="p-4 text-gray-500">Aucune tâche.</td>
                     </tr>
                 @endforelse
             </tbody>

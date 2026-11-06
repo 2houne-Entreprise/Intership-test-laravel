@@ -8,7 +8,10 @@ class ProjectController extends Controller
 {
     public function index(Request $request)
     {
-        $projects = $request->user()->projects()->latest()->get();
+        $projects = $request->user()->projects()
+            ->withCount(['tasks', 'tasks as overdue_count' => fn ($query) => $query->overdue()])
+            ->latest()
+            ->get();
 
         return view('projects.index', compact('projects'));
     }
@@ -22,7 +25,7 @@ class ProjectController extends Controller
 
     public function show(Request $request, string $id)
     {
-        $project = $request->user()->projects()->findOrFail($id);
+        $project = $request->user()->projects()->with('tasks')->findOrFail($id);
 
         return view('projects.show', compact('project'));
     }
