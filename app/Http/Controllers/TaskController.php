@@ -34,6 +34,14 @@ class TaskController extends Controller
         return redirect()->route('projects.show', $project)->with('success', 'Tâche modifiée.');
     }
 
+    public function destroy(Request $request, string $projectId, string $taskId)
+    {
+        $project = $request->user()->projects()->findOrFail($projectId);
+        $project->tasks()->findOrFail($taskId)->delete();
+
+        return back()->with('success', 'Tâche supprimée.');
+    }
+
     public function status(Request $request, string $projectId, string $taskId)
     {
         $project = $request->user()->projects()->findOrFail($projectId);

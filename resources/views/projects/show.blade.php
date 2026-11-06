@@ -1,8 +1,14 @@
 @extends('layouts.main')
 
 @section('header')
-    <h2 class="font-semibold text-xl text-gray-800">{{ $project->name }}</h2>
-    <p class="text-sm text-gray-600">{{ $project->description }}</p>
+    <a href="{{ route('projects.index') }}" class="text-sm text-gray-500 hover:text-gray-700">← Projets</a>
+    <div class="flex justify-between items-start gap-4">
+        <div>
+            <h2 class="font-semibold text-xl text-gray-800">{{ $project->name }}</h2>
+            <p class="text-sm text-gray-600">{{ $project->description }}</p>
+        </div>
+        <a href="{{ route('projects.edit', $project) }}" class="text-sm text-indigo-600 shrink-0">Modifier le projet</a>
+    </div>
 @endsection
 
 @section('content')
@@ -39,8 +45,15 @@
                             </form>
                         </td>
                         <td class="p-3">{{ $task->deadline?->format('d/m/Y') ?? '—' }}</td>
-                        <td class="p-3 text-right">
-                            <a href="{{ route('projects.tasks.edit', [$project, $task]) }}" class="text-indigo-600">Modifier</a>
+                        <td class="p-3">
+                            <div class="flex justify-end gap-3">
+                                <a href="{{ route('projects.tasks.edit', [$project, $task]) }}" class="text-indigo-600">Modifier</a>
+                                <form method="POST" action="{{ route('projects.tasks.destroy', [$project, $task]) }}" onsubmit="return confirm('Supprimer cette tâche ?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="text-red-600">Supprimer</button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 @empty

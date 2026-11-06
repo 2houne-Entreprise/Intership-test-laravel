@@ -8,7 +8,7 @@ Route::resource('projects', ProjectController::class)
     ->except(['create']);
 
 Route::resource('projects.tasks', TaskController::class)
-    ->only(['store', 'edit', 'update']);
+    ->only(['store', 'edit', 'update', 'destroy']);
 
 Route::patch('projects/{project}/tasks/{task}/status', [TaskController::class, 'status'])
     ->name('projects.tasks.status');
