@@ -11,9 +11,9 @@ enum TaskStatus: string
     public function label(): string
     {
         return match ($this) {
-            self::Pending => 'En attente',
-            self::InProgress => 'En cours',
-            self::Done => 'Terminée',
+            self::Pending => __('En attente'),
+            self::InProgress => __('En cours'),
+            self::Done => __('Terminée'),
         };
     }
 }

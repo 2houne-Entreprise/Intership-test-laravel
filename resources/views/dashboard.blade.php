@@ -1,15 +1,15 @@
 @extends('layouts.main')
 
 @section('header')
-    <h2 class="font-semibold text-xl text-gray-800">Tableau de bord</h2>
+    <h2 class="font-semibold text-xl text-gray-800">{{ __('Tableau de bord') }}</h2>
 @endsection
 
 @section('content')
     @if ($projectsCount === 0)
         <div class="p-8 bg-white rounded shadow-sm text-center">
-            <p class="text-gray-600">Vous n'avez pas encore de projet.</p>
+            <p class="text-gray-600">{{ __("Vous n'avez pas encore de projet.") }}</p>
             <a href="{{ route('projects.index') }}" class="mt-4 inline-block px-4 py-2 rounded-md bg-indigo-600 text-white hover:bg-indigo-700">
-                Créer mon premier projet
+                {{ __('Créer mon premier projet') }}
             </a>
         </div>
     @else
@@ -20,26 +20,26 @@
 
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
             <div class="p-4 bg-white rounded shadow-sm">
-                <p class="text-sm text-gray-500">Projets</p>
+                <p class="text-sm text-gray-500">{{ __('Projets') }}</p>
                 <p class="text-2xl font-semibold">{{ $projectsCount }}</p>
             </div>
             <div class="p-4 bg-white rounded shadow-sm">
-                <p class="text-sm text-gray-500">Tâches</p>
+                <p class="text-sm text-gray-500">{{ __('Tâches') }}</p>
                 <p class="text-2xl font-semibold">{{ $totalTasks }}</p>
             </div>
             <div class="p-4 bg-white rounded shadow-sm">
-                <p class="text-sm text-gray-500">En retard</p>
+                <p class="text-sm text-gray-500">{{ __('En retard') }}</p>
                 <p @class(['text-2xl font-semibold', 'text-red-600' => $overdueCount > 0])>{{ $overdueCount }}</p>
             </div>
             <div class="p-4 bg-white rounded shadow-sm">
-                <p class="text-sm text-gray-500">Terminées</p>
+                <p class="text-sm text-gray-500">{{ __('Terminées') }}</p>
                 <p class="text-2xl font-semibold">{{ $totalTasks ? round($done / $totalTasks * 100) : 0 }} %</p>
             </div>
         </div>
 
         <div class="grid sm:grid-cols-2 gap-4">
             <div class="p-6 bg-white rounded shadow-sm">
-                <h3 class="font-semibold mb-4">Tâches par statut</h3>
+                <h3 class="font-semibold mb-4">{{ __('Tâches par statut') }}</h3>
                 <div class="space-y-3">
                     @foreach (App\Enums\TaskStatus::cases() as $status)
                         @php $count = $statusCounts[$status->value] ?? 0; @endphp
@@ -57,7 +57,7 @@
             </div>
 
             <div class="p-6 bg-white rounded shadow-sm">
-                <h3 class="font-semibold mb-4">Avancement des projets</h3>
+                <h3 class="font-semibold mb-4">{{ __('Avancement des projets') }}</h3>
                 <div class="space-y-3">
                     @foreach ($projects as $project)
                         @php $percent = $project->tasks_count ? round($project->done_count / $project->tasks_count * 100) : 0; @endphp
@@ -76,7 +76,7 @@
         </div>
 
         <div class="bg-white rounded shadow-sm">
-            <h3 class="p-4 font-semibold border-b">En retard</h3>
+            <h3 class="p-4 font-semibold border-b">{{ __('En retard') }}</h3>
             @forelse ($overdueTasks as $task)
                 <a href="{{ route('projects.show', $task->project) }}" class="p-4 flex justify-between gap-4 border-b last:border-0 hover:bg-gray-50">
                     <div>
@@ -86,7 +86,7 @@
                     <span class="text-sm text-red-600 shrink-0">{{ $task->deadline->format('d/m/Y') }}</span>
                 </a>
             @empty
-                <p class="p-4 text-gray-500">Aucune tâche en retard.</p>
+                <p class="p-4 text-gray-500">{{ __('Aucune tâche en retard.') }}</p>
             @endforelse
         </div>
     @endif

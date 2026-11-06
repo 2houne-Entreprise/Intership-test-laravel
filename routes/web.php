@@ -8,6 +8,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/langue/{locale}', function (string $locale) {
+    session(['locale' => $locale]);
+
+    return back();
+})->whereIn('locale', ['fr', 'en'])->name('locale');
+
 Route::get('/dashboard', DashboardController::class)
     ->middleware(['auth', 'verified'])
     ->name('dashboard');

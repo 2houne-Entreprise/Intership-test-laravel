@@ -1,13 +1,13 @@
 @extends('layouts.main')
 
 @section('header')
-    <a href="{{ route('projects.index') }}" class="text-sm text-gray-500 hover:text-gray-700">← Projets</a>
+    <a href="{{ route('projects.index') }}" class="text-sm text-gray-500 hover:text-gray-700">← {{ __('Projets') }}</a>
     <div class="flex justify-between items-start gap-4">
         <div>
             <h2 class="font-semibold text-xl text-gray-800">{{ $project->name }}</h2>
             <p class="text-sm text-gray-600">{{ $project->description }}</p>
         </div>
-        <a href="{{ route('projects.edit', $project) }}" class="text-sm text-indigo-600 shrink-0">Modifier le projet</a>
+        <a href="{{ route('projects.edit', $project) }}" class="text-sm text-indigo-600 shrink-0">{{ __('Modifier le projet') }}</a>
     </div>
 @endsection
 
@@ -17,32 +17,32 @@
         @include('tasks.fields', ['task' => null])
 
         <div>
-            <x-input-label for="attachment" value="Pièce jointe (pdf, image, doc, 5 Mo max)" />
+            <x-input-label for="attachment" :value="__('Pièce jointe (pdf, image, doc, 5 Mo max)')" />
             <input id="attachment" name="attachment" type="file" class="mt-1 block w-full text-sm">
             <x-input-error :messages="$errors->get('attachment')" class="mt-2" />
         </div>
-        <x-primary-button>Ajouter la tâche</x-primary-button>
+        <x-primary-button>{{ __('Ajouter la tâche') }}</x-primary-button>
     </form>
 
     <form method="GET" class="flex flex-wrap gap-2">
-        <x-text-input name="q" :value="request('q')" placeholder="Rechercher une tâche" class="flex-1 min-w-0 text-sm" />
-        <select name="status" aria-label="Filtrer par statut" class="border-gray-300 rounded-md shadow-sm text-sm">
-            <option value="">Tous les statuts</option>
+        <x-text-input name="q" :value="request('q')" :placeholder="__('Rechercher une tâche')" class="flex-1 min-w-0 text-sm" />
+        <select name="status" aria-label="{{ __('Filtrer par statut') }}" class="border-gray-300 rounded-md shadow-sm text-sm">
+            <option value="">{{ __('Tous les statuts') }}</option>
             @foreach (App\Enums\TaskStatus::cases() as $status)
                 <option value="{{ $status->value }}" @selected(request('status') === $status->value)>{{ $status->label() }}</option>
             @endforeach
         </select>
-        <x-secondary-button type="submit">Filtrer</x-secondary-button>
+        <x-secondary-button type="submit">{{ __('Filtrer') }}</x-secondary-button>
     </form>
 
     <div class="bg-white rounded shadow-sm overflow-x-auto">
         <table class="w-full text-sm">
             <thead class="bg-gray-50 text-left text-gray-600">
                 <tr>
-                    <th class="p-3">Titre</th>
-                    <th class="p-3">Statut</th>
-                    <th class="p-3">Échéance</th>
-                    <th class="p-3">Changer</th>
+                    <th class="p-3">{{ __('Titre') }}</th>
+                    <th class="p-3">{{ __('Statut') }}</th>
+                    <th class="p-3">{{ __('Échéance') }}</th>
+                    <th class="p-3">{{ __('Changer') }}</th>
                     <th class="p-3"></th>
                 </tr>
             </thead>
@@ -52,7 +52,7 @@
                         <td class="p-3">
                             <p class="font-medium">{{ $task->title }}</p>
                             @if ($task->attachment_path)
-                                <a href="{{ Storage::url($task->attachment_path) }}" download class="text-xs text-indigo-600 hover:underline">Télécharger la pièce jointe</a>
+                                <a href="{{ Storage::url($task->attachment_path) }}" download class="text-xs text-indigo-600 hover:underline">{{ __('Télécharger la pièce jointe') }}</a>
                             @endif
                         </td>
                         <td class="p-3">
@@ -66,7 +66,7 @@
                         <td class="p-3 whitespace-nowrap">
                             {{ $task->deadline?->format('d/m/Y') ?? '—' }}
                             @if ($task->isOverdue())
-                                <span class="ms-1 px-2 py-0.5 rounded-full text-xs bg-red-100 text-red-700">En retard</span>
+                                <span class="ms-1 px-2 py-0.5 rounded-full text-xs bg-red-100 text-red-700">{{ __('En retard') }}</span>
                             @endif
                         </td>
                         <td class="p-3">
@@ -83,11 +83,11 @@
                         </td>
                         <td class="p-3">
                             <div class="flex justify-end gap-3">
-                                <a href="{{ route('projects.tasks.edit', [$project, $task]) }}" class="text-indigo-600">Modifier</a>
-                                <form method="POST" action="{{ route('projects.tasks.destroy', [$project, $task]) }}" onsubmit="return confirm('Supprimer cette tâche ?')">
+                                <a href="{{ route('projects.tasks.edit', [$project, $task]) }}" class="text-indigo-600">{{ __('Modifier') }}</a>
+                                <form method="POST" action="{{ route('projects.tasks.destroy', [$project, $task]) }}" onsubmit="return confirm(@js(__('Supprimer cette tâche ?')))">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="text-red-600">Supprimer</button>
+                                    <button class="text-red-600">{{ __('Supprimer') }}</button>
                                 </form>
                             </div>
                         </td>
@@ -95,7 +95,7 @@
                 @empty
                     <tr>
                         <td colspan="5" class="p-4 text-gray-500">
-                            {{ request()->hasAny(['q', 'status']) ? 'Aucune tâche ne correspond à la recherche.' : 'Aucune tâche.' }}
+                            {{ request()->hasAny(['q', 'status']) ? __('Aucune tâche ne correspond à la recherche.') : __('Aucune tâche.') }}
                         </td>
                     </tr>
                 @endforelse

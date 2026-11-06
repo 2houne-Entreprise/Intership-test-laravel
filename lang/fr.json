@@ -1,4 +1,5 @@
 {
+    "{0,1} :count tâche|[2,*] :count tâches": "{0,1} :count tâche|[2,*] :count tâches",
     "A new verification link has been sent to the email address you provided during registration.": "Un nouveau lien de vérification a été envoyé à l'adresse e-mail indiquée lors de l'inscription.",
     "A new verification link has been sent to your email address.": "Un nouveau lien de vérification a été envoyé à votre adresse e-mail.",
     "Are you sure you want to delete your account?": "Voulez-vous vraiment supprimer votre compte ?",

@@ -23,7 +23,7 @@ class ProjectController extends Controller
     {
         $request->user()->projects()->create($this->validated($request));
 
-        return back()->with('success', 'Projet créé.');
+        return back()->with('success', __('Projet créé.'));
     }
 
     public function show(Request $request, string $id)
@@ -54,7 +54,7 @@ class ProjectController extends Controller
         $project = $request->user()->projects()->findOrFail($id);
         $project->update($this->validated($request));
 
-        return redirect()->route('projects.index')->with('success', 'Projet modifié.');
+        return redirect()->route('projects.index')->with('success', __('Projet modifié.'));
     }
 
     public function destroy(Request $request, string $id)
@@ -63,7 +63,7 @@ class ProjectController extends Controller
         $project->tasks->each->delete();
         $project->delete();
 
-        return back()->with('success', 'Projet supprimé.');
+        return back()->with('success', __('Projet supprimé.'));
     }
 
     private function validated(Request $request): array

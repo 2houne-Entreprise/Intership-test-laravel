@@ -9,7 +9,7 @@
         @endif
 
         @if ($errors->any())
-            <x-alert type="error">Le formulaire contient des erreurs.</x-alert>
+            <x-alert type="error">{{ __('Le formulaire contient des erreurs.') }}</x-alert>
         @endif
 
         @yield('content')

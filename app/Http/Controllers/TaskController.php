@@ -22,7 +22,7 @@ class TaskController extends Controller
 
         $project->tasks()->create($data);
 
-        return back()->with('success', 'Tâche ajoutée.');
+        return back()->with('success', __('Tâche ajoutée.'));
     }
 
     public function edit(Request $request, string $projectId, string $taskId)
@@ -38,7 +38,7 @@ class TaskController extends Controller
         $project = $request->user()->projects()->findOrFail($projectId);
         $project->tasks()->findOrFail($taskId)->update($request->validated());
 
-        return redirect()->route('projects.show', $project)->with('success', 'Tâche modifiée.');
+        return redirect()->route('projects.show', $project)->with('success', __('Tâche modifiée.'));
     }
 
     public function destroy(Request $request, string $projectId, string $taskId)
@@ -46,7 +46,7 @@ class TaskController extends Controller
         $project = $request->user()->projects()->findOrFail($projectId);
         $project->tasks()->findOrFail($taskId)->delete();
 
-        return back()->with('success', 'Tâche supprimée.');
+        return back()->with('success', __('Tâche supprimée.'));
     }
 
     public function status(Request $request, string $projectId, string $taskId)
@@ -55,6 +55,6 @@ class TaskController extends Controller
         $data = $request->validate(['status' => ['required', Rule::enum(TaskStatus::class)]]);
         $project->tasks()->findOrFail($taskId)->update($data);
 
-        return back()->with('success', 'Statut mis à jour.');
+        return back()->with('success', __('Statut mis à jour.'));
     }
 }
