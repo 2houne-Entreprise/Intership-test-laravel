@@ -12,9 +12,15 @@
 @endsection
 
 @section('content')
-    <form method="POST" action="{{ route('projects.tasks.store', $project) }}" class="p-6 bg-white rounded shadow-sm space-y-4">
+    <form method="POST" action="{{ route('projects.tasks.store', $project) }}" enctype="multipart/form-data" class="p-6 bg-white rounded shadow-sm space-y-4">
         @csrf
         @include('tasks.fields', ['task' => null])
+
+        <div>
+            <x-input-label for="attachment" value="Pièce jointe (pdf, image, doc, 5 Mo max)" />
+            <input id="attachment" name="attachment" type="file" class="mt-1 block w-full text-sm">
+            <x-input-error :messages="$errors->get('attachment')" class="mt-2" />
+        </div>
         <x-primary-button>Ajouter la tâche</x-primary-button>
     </form>
 
@@ -32,7 +38,12 @@
             <tbody class="divide-y">
                 @forelse ($project->tasks as $task)
                     <tr>
-                        <td class="p-3 font-medium">{{ $task->title }}</td>
+                        <td class="p-3">
+                            <p class="font-medium">{{ $task->title }}</p>
+                            @if ($task->attachment_path)
+                                <a href="{{ Storage::url($task->attachment_path) }}" download class="text-xs text-indigo-600 hover:underline">Télécharger la pièce jointe</a>
+                            @endif
+                        </td>
                         <td class="p-3">
                             <span @class([
                                 'px-2 py-0.5 rounded-full text-xs whitespace-nowrap',

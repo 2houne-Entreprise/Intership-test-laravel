@@ -6,6 +6,7 @@ use App\Enums\TaskStatus;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class TaskController extends Controller
@@ -13,7 +14,13 @@ class TaskController extends Controller
     public function store(StoreTaskRequest $request, string $projectId)
     {
         $project = $request->user()->projects()->findOrFail($projectId);
-        $project->tasks()->create($request->validated());
+        $data = $request->safe()->except('attachment');
+
+        if ($request->hasFile('attachment')) {
+            $data['attachment_path'] = Storage::disk('public')->putFile('attachments', $request->file('attachment'));
+        }
+
+        $project->tasks()->create($data);
 
         return back()->with('success', 'Tâche ajoutée.');
     }

@@ -7,10 +7,20 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Storage;
 
-#[Fillable(['title', 'status', 'deadline'])]
+#[Fillable(['title', 'status', 'deadline', 'attachment_path'])]
 class Task extends Model
 {
+    protected static function booted(): void
+    {
+        static::deleted(function (Task $task) {
+            if ($task->attachment_path) {
+                Storage::disk('public')->delete($task->attachment_path);
+            }
+        });
+    }
+
     protected function casts(): array
     {
         return [

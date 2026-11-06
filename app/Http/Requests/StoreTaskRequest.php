@@ -14,6 +14,7 @@ class StoreTaskRequest extends FormRequest
             'title' => ['required', 'string', 'max:255'],
             'status' => ['required', Rule::enum(TaskStatus::class)],
             'deadline' => ['nullable', 'date'],
+            'attachment' => ['nullable', 'file', 'mimes:pdf,jpg,jpeg,png,txt,doc,docx', 'max:5120'],
         ];
     }
 }

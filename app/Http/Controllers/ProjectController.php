@@ -47,7 +47,9 @@ class ProjectController extends Controller
 
     public function destroy(Request $request, string $id)
     {
-        $request->user()->projects()->findOrFail($id)->delete();
+        $project = $request->user()->projects()->findOrFail($id);
+        $project->tasks->each->delete();
+        $project->delete();
 
         return back()->with('success', 'Projet supprimé.');
     }
