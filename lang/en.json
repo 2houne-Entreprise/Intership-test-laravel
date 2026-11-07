@@ -54,7 +54,6 @@
     "Organisez vos projets, suivez vos tâches.": "Organize your projects, track your tasks.",
     "Ouvrir mon tableau de bord": "Open my dashboard",
     "Pas encore de compte ?": "Don't have an account?",
-    "Pièce jointe": "Attachment",
     "Pièce jointe (pdf, image, doc, 5 Mo max)": "Attachment (pdf, image, doc, 5 MB max)",
     "pour le test technique": "for the technical test of",
     "Projet créé.": "Project created.",
@@ -84,7 +83,7 @@
     "Tâche supprimée.": "Task deleted.",
     "Tâches": "Tasks",
     "Tâches par statut": "Tasks by status",
-    "Télécharger la pièce jointe": "Download attachment",
+    "Voir la pièce jointe": "View attachment",
     "Vous n'avez pas encore de projet.": "You don't have any projects yet.",
     "{0,1} :count tâche|[2,*] :count tâches": "{1} :count task|[0,*] :count tasks",
     "Échéance": "Deadline"

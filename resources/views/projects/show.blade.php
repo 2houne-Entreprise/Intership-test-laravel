@@ -11,7 +11,8 @@
 
         <div>
             <x-input-label for="attachment" :value="__('Pièce jointe (pdf, image, doc, 5 Mo max)')" />
-            <input id="attachment" name="attachment" type="file" class="mt-1 block w-full text-sm">
+            <input id="attachment" name="attachment" type="file" accept=".pdf,.jpg,.jpeg,.png,.txt,.doc,.docx"
+                   class="mt-1 block w-full text-sm text-gray-600 file:me-3 file:rounded-md file:border-0 file:bg-indigo-50 file:px-3 file:py-2 file:text-sm file:font-medium file:text-indigo-700 hover:file:bg-indigo-100 file:cursor-pointer">
             <x-input-error :messages="$errors->get('attachment')" class="mt-2" />
         </div>
         <x-primary-button>{{ __('Ajouter la tâche') }}</x-primary-button>
@@ -45,7 +46,9 @@
                         <td class="p-3">
                             <p class="font-medium">{{ $task->title }}</p>
                             @if ($task->attachment_path)
-                                <a href="{{ Storage::url($task->attachment_path) }}" download class="text-xs text-indigo-600 hover:underline">{{ __('Télécharger la pièce jointe') }}</a>
+                                <a href="{{ Storage::url($task->attachment_path) }}" target="_blank" rel="noopener" class="text-xs text-indigo-600 hover:underline">
+                                    {{ __('Voir la pièce jointe') }} ({{ strtoupper(pathinfo($task->attachment_path, PATHINFO_EXTENSION)) }})
+                                </a>
                             @endif
                         </td>
                         <td class="p-3">
