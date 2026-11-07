@@ -10,6 +10,9 @@ Route::resource('projects', ProjectController::class)
     ->middlewareFor(['show', 'edit', 'update', 'destroy'], EnsureUserOwnsProject::class);
 
 Route::middleware(EnsureUserOwnsProject::class)->group(function () {
+    Route::get('projects/{project}/board', [ProjectController::class, 'board'])
+        ->name('projects.board');
+
     Route::resource('projects.tasks', TaskController::class)
         ->only(['store', 'edit', 'update', 'destroy']);
 

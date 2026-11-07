@@ -53,7 +53,12 @@ class TaskController extends Controller
     {
         $project = $request->user()->projects()->findOrFail($projectId);
         $data = $request->validate(['status' => ['required', Rule::enum(TaskStatus::class)]]);
-        $project->tasks()->findOrFail($taskId)->update($data);
+        $task = $project->tasks()->findOrFail($taskId);
+        $task->update($data);
+
+        if ($request->expectsJson()) {
+            return response()->json(['status' => $task->status->value, 'overdue' => $task->isOverdue()]);
+        }
 
         return back()->with('success', __('Statut mis à jour.'));
     }

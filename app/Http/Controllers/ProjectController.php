@@ -42,6 +42,19 @@ class ProjectController extends Controller
         return view('projects.show', compact('project', 'tasks'));
     }
 
+    public function board(Request $request, string $id)
+    {
+        $project = $request->user()->projects()->findOrFail($id);
+
+        $columns = $project->tasks()
+            ->orderByRaw('deadline is null')
+            ->orderBy('deadline')
+            ->get()
+            ->groupBy(fn ($task) => $task->status->value);
+
+        return view('projects.board', compact('project', 'columns'));
+    }
+
     public function edit(Request $request, string $id)
     {
         $project = $request->user()->projects()->findOrFail($id);

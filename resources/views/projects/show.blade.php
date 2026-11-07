@@ -1,14 +1,7 @@
 @extends('layouts.main')
 
 @section('header')
-    <a href="{{ route('projects.index') }}" class="text-sm text-gray-500 hover:text-gray-700">← {{ __('Projets') }}</a>
-    <div class="flex justify-between items-start gap-4">
-        <div>
-            <h2 class="font-semibold text-xl text-gray-800">{{ $project->name }}</h2>
-            <p class="text-sm text-gray-600">{{ $project->description }}</p>
-        </div>
-        <a href="{{ route('projects.edit', $project) }}" class="text-sm text-indigo-600 shrink-0">{{ __('Modifier le projet') }}</a>
-    </div>
+    @include('projects.header')
 @endsection
 
 @section('content')

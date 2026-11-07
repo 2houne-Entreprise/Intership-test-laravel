@@ -3,7 +3,7 @@
         @yield('header')
     </x-slot>
 
-    <div class="py-8 max-w-3xl mx-auto px-4 space-y-6">
+    <div class="py-8 @yield('width', 'max-w-3xl') mx-auto px-4 space-y-6">
         @if (session('success'))
             <x-alert>{{ session('success') }}</x-alert>
         @endif
