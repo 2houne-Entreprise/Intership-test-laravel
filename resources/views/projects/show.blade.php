@@ -30,8 +30,8 @@
     </form>
 
     <div class="bg-white rounded shadow-sm overflow-x-auto">
-        <table class="w-full text-sm">
-            <thead class="bg-gray-50 text-left text-gray-600">
+        <table class="block sm:table w-full text-sm">
+            <thead class="hidden sm:table-header-group bg-gray-50 text-left text-gray-600">
                 <tr>
                     <th class="p-3">{{ __('Titre') }}</th>
                     <th class="p-3">{{ __('Statut') }}</th>
@@ -40,10 +40,10 @@
                     <th class="p-3"></th>
                 </tr>
             </thead>
-            <tbody class="divide-y">
+            <tbody class="block sm:table-row-group divide-y">
                 @forelse ($tasks as $task)
-                    <tr>
-                        <td class="p-3">
+                    <tr class="block sm:table-row py-2 sm:py-0">
+                        <td class="block sm:table-cell px-3 pt-1 sm:p-3">
                             <p class="font-medium">{{ $task->title }}</p>
                             @if ($task->attachment_path)
                                 <a href="{{ Storage::url($task->attachment_path) }}" target="_blank" rel="noopener" class="text-xs text-indigo-600 hover:underline">
@@ -51,7 +51,7 @@
                                 </a>
                             @endif
                         </td>
-                        <td class="p-3">
+                        <td class="inline-block sm:table-cell px-3 py-1 sm:p-3">
                             <span @class([
                                 'px-2 py-0.5 rounded-full text-xs whitespace-nowrap',
                                 'bg-gray-100 text-gray-700' => $task->status === App\Enums\TaskStatus::Pending,
@@ -59,13 +59,13 @@
                                 'bg-green-100 text-green-800' => $task->status === App\Enums\TaskStatus::Done,
                             ])>{{ $task->status_label }}</span>
                         </td>
-                        <td class="p-3 whitespace-nowrap">
+                        <td class="inline-block sm:table-cell py-1 sm:p-3 whitespace-nowrap text-gray-600 sm:text-gray-900">
                             {{ $task->deadline?->format('d/m/Y') ?? '—' }}
                             @if ($task->isOverdue())
                                 <span class="ms-1 px-2 py-0.5 rounded-full text-xs bg-red-100 text-red-700">{{ __('En retard') }}</span>
                             @endif
                         </td>
-                        <td class="p-3">
+                        <td class="block sm:table-cell px-3 py-1 sm:p-3">
                             <form method="POST" action="{{ route('projects.tasks.status', [$project, $task]) }}" class="flex gap-2">
                                 @csrf
                                 @method('PATCH')
@@ -77,8 +77,8 @@
                                 <button class="text-indigo-600">OK</button>
                             </form>
                         </td>
-                        <td class="p-3">
-                            <div class="flex justify-end gap-3">
+                        <td class="block sm:table-cell px-3 pt-1 pb-2 sm:p-3">
+                            <div class="flex sm:justify-end gap-4">
                                 <a href="{{ route('projects.tasks.edit', [$project, $task]) }}" class="text-indigo-600">{{ __('Modifier') }}</a>
                                 <form method="POST" action="{{ route('projects.tasks.destroy', [$project, $task]) }}" onsubmit="return confirm(@js(__('Supprimer cette tâche ?')))">
                                     @csrf
@@ -90,7 +90,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" class="p-4 text-gray-500">
+                        <td colspan="5" class="block sm:table-cell p-4 text-gray-500">
                             {{ request()->hasAny(['q', 'status']) ? __('Aucune tâche ne correspond à la recherche.') : __('Aucune tâche.') }}
                         </td>
                     </tr>
