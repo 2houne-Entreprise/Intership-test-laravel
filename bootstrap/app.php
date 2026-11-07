@@ -12,7 +12,7 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
         then: function () {
-            Route::middleware(['web', 'auth'])->group(base_path('routes/projects.php'));
+            Route::middleware(['web', 'auth', 'throttle:60,1'])->group(base_path('routes/projects.php'));
         },
     )
     ->withMiddleware(function (Middleware $middleware): void {

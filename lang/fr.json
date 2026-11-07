@@ -15,9 +15,9 @@
     "Name": "Nom",
     "New Password": "Nouveau mot de passe",
     "of": "sur",
-    "Pagination Navigation": "Navigation entre les pages",
     "Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.": "Une fois votre compte supprimé, tous vos projets, tâches et fichiers seront définitivement effacés. Téléchargez avant tout ce que vous souhaitez conserver.",
     "Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.": "Une fois votre compte supprimé, toutes vos données seront définitivement effacées. Entrez votre mot de passe pour confirmer.",
+    "Pagination Navigation": "Navigation entre les pages",
     "Password": "Mot de passe",
     "Profile": "Profil",
     "Profile Information": "Informations du profil",
@@ -28,6 +28,7 @@
     "Showing": "Affichage de",
     "Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn't receive the email, we will gladly send you another.": "Merci pour votre inscription ! Avant de commencer, confirmez votre adresse e-mail en cliquant sur le lien que nous venons de vous envoyer. Vous ne l'avez pas reçu ? Nous pouvons vous en renvoyer un.",
     "to": "à",
+    "Too Many Requests": "Trop de requêtes",
     "Update Password": "Changer le mot de passe",
     "Update your account's profile information and email address.": "Modifiez votre nom et votre adresse e-mail.",
     "Your email address is unverified.": "Votre adresse e-mail n'est pas vérifiée."
